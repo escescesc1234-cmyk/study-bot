@@ -186,6 +186,26 @@ async def 타임아웃(ctx, member: discord.Member, 분: int):
     except Exception as e:
         await ctx.send(f"오류 발생: {e}")
 
+@bot.command()
+async def 탐해제(ctx, member: discord.Member,):
+
+    if ctx.author.id != OWNER_ID:
+        await ctx.send("권한이 없습니다!")
+        return
+    
+    try:
+        await member.timeout(None)
+
+
+        await ctx.send(
+            f"✅ {member.mention}의 타임아웃을 해제했습니다!"
+        )
+    except  Exception as e:
+        await ctx.send(
+            f"❌ 오류발생! : {e}"
+        )
+
+
 
 
 
@@ -391,15 +411,10 @@ async def 벌점랭킹(ctx):
     await ctx.send(msg)
 
 @bot.command()
-async def 탐아(ctx):
-    import datetime
-
-    await ctx.author.timeout(
-        datetime.timedelta(minutes=1),
-        reason="테스트"
-    )
-
-    await ctx.send("탐아 성공")
+async def 명령어(ctx):
+    await ctx.send("명령어들입니다!" \
+    "일반유저가 사용 가능한 명령어들 : !공부시작 (분), !공부시간, !휴식, !벌점확인 @벌점 확인하고싶은사람, !벌점랭킹 들이 있습니다!" \
+    "개발자 명령어 : !벌점 @벌점 줄 사람, !벌점초기화, !타임아웃, ")
 
 
 print(Token)

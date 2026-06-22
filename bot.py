@@ -28,7 +28,6 @@ current_study = {}
 # 안티치트
 message_log = defaultdict(list)
 warnings = {}
-print(Token)
 MAX_WARNINGS = 10
 
 bad_words = [
@@ -162,90 +161,18 @@ async def on_message(message):
 
 
 
-@bot.command()
-async def 타임아웃(ctx, member: discord.Member, 분: int):
-
-    if ctx.author.id != OWNER_ID:
-        await ctx.send("권한이 없습니다!")
-        return
-
-    if 분 <= 0:
-        await ctx.send("시간은 1분 이상이어야 합니다!")
-        return
-
-    try:
-        await member.timeout(
-            datetime.timedelta(minutes=분),
-            reason=f"{ctx.author}에 의해 타임아웃"
-        )
-
-        await ctx.send(
-            f"🔨 {member.mention}님을 {분}분 동안 타임아웃했습니다!"
-        )
-
-    except Exception as e:
-        await ctx.send(f"오류 발생: {e}")
-
-@bot.command()
-async def 탐해제(ctx, member: discord.Member,):
-
-    if ctx.author.id != OWNER_ID:
-        await ctx.send("권한이 없습니다!")
-        return
-    
-    try:
-        await member.timeout(None)
-
-
-        await ctx.send(
-            f"✅ {member.mention}의 타임아웃을 해제했습니다!"
-        )
-    except  Exception as e:
-        await ctx.send(
-            f"❌ 오류발생! : {e}"
-        )
 
 
 
 
 
 
-@bot.command()
-async def 벌점(ctx, member: discord.Member, 점수: int):
 
-    if ctx.author.id != 1064709921171582986:
-        await ctx.send("⛔ 이 명령어는 사용할 수 없습니다.")
-        return
 
-    user_id = str(member.id)
 
-    warnings[user_id] = warnings.get(user_id, 0) + 점수
-
-    warn = warnings[user_id]
-
-    await ctx.send(
-        f"⚠ {member.mention}에게 벌점 {점수}점 부여!\n"
-        f"현재 벌점: {warn}/{MAX_WARNINGS}"
-    )
-
-    if warn >= MAX_WARNINGS:
-
-        try:
-            import datetime
-
-            await member.timeout(
-                datetime.timedelta(minutes=10),
-                reason="벌점 누적"
-            )
-
-            await ctx.send(
-                f"🔨 {member.mention} 10분 타임아웃!"
-            )
-
-            warnings[user_id] = 0
-
-        except Exception as e:
-            print(e)
+#==================================================
+#공부
+#==================================================
 
 
 @bot.command()
@@ -358,6 +285,14 @@ async def 공부시작(ctx, 분: int):
         f"{ctx.author.mention} 공부 끝! 수고했어요😁"
     )
 
+@bot.command()
+async def 추천(ctx):
+    subject = ["수학", "국어", "영어", "과학", "사회", "역사", "가정", "기술", "정보", "디지털 리터러시", "도덕"]
+    choice = random.choice(subject)
+    await ctx.send(choice, "를 하는거 어때요?📚")
+#========================================================
+#서버관리
+#========================================================
 
 @bot.command()
 async def 벌점확인(ctx, member: discord.Member):
@@ -411,11 +346,94 @@ async def 벌점랭킹(ctx):
     await ctx.send(msg)
 
 @bot.command()
+async def 벌점(ctx, member: discord.Member, 점수: int):
+
+    if ctx.author.id != 1064709921171582986:
+        await ctx.send("⛔ 이 명령어는 사용할 수 없습니다.")
+        return
+
+    user_id = str(member.id)
+
+    warnings[user_id] = warnings.get(user_id, 0) + 점수
+
+    warn = warnings[user_id]
+
+    await ctx.send(
+        f"⚠ {member.mention}에게 벌점 {점수}점 부여!\n"
+        f"현재 벌점: {warn}/{MAX_WARNINGS}"
+    )
+
+    if warn >= MAX_WARNINGS:
+
+        try:
+            import datetime
+
+            await member.timeout(
+                datetime.timedelta(minutes=10),
+                reason="벌점 누적"
+            )
+
+            await ctx.send(
+                f"🔨 {member.mention} 10분 타임아웃!"
+            )
+
+            warnings[user_id] = 0
+
+        except Exception as e:
+            print(e)
+
+@bot.command()
+async def 탐해제(ctx, member: discord.Member,):
+
+    if ctx.author.id != OWNER_ID:
+        await ctx.send("권한이 없습니다!")
+        return
+    
+    try:
+        await member.timeout(None)
+
+
+        await ctx.send(
+            f"✅ {member.mention}의 타임아웃을 해제했습니다!"
+        )
+    except  Exception as e:
+        await ctx.send(
+            f"❌ 오류발생! : {e}"
+        )
+
+@bot.command()
+async def 타임아웃(ctx, member: discord.Member, 분: int):
+
+    if ctx.author.id != OWNER_ID:
+        await ctx.send("권한이 없습니다!")
+        return
+
+    if 분 <= 0:
+        await ctx.send("시간은 1분 이상이어야 합니다!")
+        return
+
+    try:
+        await member.timeout(
+            datetime.timedelta(minutes=분),
+            reason=f"{ctx.author}에 의해 타임아웃"
+        )
+
+        await ctx.send(
+            f"🔨 {member.mention}님을 {분}분 동안 타임아웃했습니다!"
+        )
+
+    except Exception as e:
+        await ctx.send(f"오류 발생: {e}")
+#===============================================================
+#기타
+#===============================================================
+
+
+@bot.command()
 async def 명령어(ctx):
     await ctx.send("명령어들입니다!\n"
-    "일반 명령어✅ : !공부시작 (분), !공부시간, !휴식, !벌점확인 @사람, !벌점랭킹 \n" 
+    "일반 명령어✅ : !공부시작 (분), !공부시간, !휴식, !벌점확인 @사람, !벌점랭킹, !추천 \n" 
     "개발자 명령어🛡️ : !벌점 @사람, !벌점초기화, !타임아웃, !탐해제")
 
 
-print(Token)
 bot.run(Token)

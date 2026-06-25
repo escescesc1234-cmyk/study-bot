@@ -30,8 +30,7 @@ message_log = defaultdict(list)
 warnings = {}
 MAX_WARNINGS = 10
 
-bad_words = [
-]
+bad_words = ["시발","개새끼","애미","앰창","창년","뒤짐","병신","장애","장애인","씨발","개시발","개씨발","시1발","시@발","앰뒤","니임마청년","니엄마창년","니애미따라가라","씹장애","창남","씹창","씹","뒤짐","섹스","섹1스","섹@스"]
 def load_warnings():
     try:
         with open("warnings.json", "r") as f:
@@ -431,9 +430,9 @@ async def 타임아웃(ctx, member: discord.Member, 분: int):
 
 @bot.command()
 async def 명령어(ctx):
-    await ctx.send("명령어들입니다!\n"
+    await ctx.send("명령어들입니다!\n\n"
     "일반 명령어✅ : !공부시작 (분), !공부시간, !휴식, !벌점확인 @사람, !벌점랭킹, !추천 \n" 
-    "개발자 명령어🛡️ : !벌점 @사람, !벌점초기화, !타임아웃, !탐해제")
+    "서버관리(관리자) 명령어🛡️ : !벌점 @사람, !벌점초기화, !타임아웃, !탐해제")
 
 
-bot.run(Token)
+bot.run(Token) 

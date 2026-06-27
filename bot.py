@@ -300,14 +300,26 @@ async def 음소거해제(ctx, member: discord.Member):
         return
     
     try:
-        await member.edit(mute=False)
-        await member.edit(deafen=False)
+        await member.edit(mute=False, deafen=False)
+
 
         await ctx.send(f"✅{member.mention}의 헤드셋, 마이크 음소거를 해제했습니다!")
     except Exception as e:
         await ctx.send(f"❌오류발생! : {e}")
-    
 
+@bot.command()
+async def 음소거(ctx, member:discord.Member):
+
+    if ctx.author.id != OWNER_ID:
+        await ctx.send("⛔ 이 명령어는 사용할수 없습니다.")
+        return
+    try :
+        await member.edit(mute=True, deafen=True)
+        
+
+        await ctx.send(f"🔇{member.mention}마이크 및 헤드셋 음소거를 활성화했습니다!")
+    except Exception as e:
+        await ctx.send(f"❌오류발생! : {e}")
         
     
 @bot.command()
@@ -449,7 +461,7 @@ async def 타임아웃(ctx, member: discord.Member, 분: int):
 async def 명령어(ctx):
     await ctx.send("명령어들입니다!\n\n"
     "일반 명령어✅ : !공부시작 (분), !공부시간, !휴식, !벌점확인 @사람, !벌점랭킹, !추천 \n" 
-    "서버관리(관리자) 명령어🛡️ : !벌점 @사람, !벌점초기화, !타임아웃, !탐해제, !음소거해제")
+    "서버관리(관리자) 명령어🛡️ : !벌점 @사람, !벌점초기화, !타임아웃, !탐해제, !음소거해제, !음소거")
 
 
 bot.run(Token) 

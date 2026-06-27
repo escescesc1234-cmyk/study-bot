@@ -293,6 +293,24 @@ async def 추천(ctx):
 #========================================================
 
 @bot.command()
+async def 음소거해제(ctx, member: discord.Member):
+
+    if ctx.author.id != OWNER_ID:
+        await ctx.send("⛔ 이 명령어는 사용할 수 없습니다.")
+        return
+    
+    try:
+        await member.edit(mute=False)
+        await member.edit(deafen=False)
+
+        await ctx.send(f"✅{member.mention}의 헤드셋, 마이크 음소거를 해제했습니다!")
+    except Exception as e:
+        await ctx.send(f"❌오류발생! : {e}")
+    
+
+        
+    
+@bot.command()
 async def 벌점확인(ctx, member: discord.Member):
 
     user_id = str(member.id)
